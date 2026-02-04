@@ -6,7 +6,7 @@
   "expo": {
     "name": "Knight's Tour",
     "slug": "knight-tour-mobile",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "newArchEnabled": true,
@@ -27,6 +27,7 @@
     },
     "android": {
       "package": "com.thefoundrysociety.knighttour",
+      "versionCode": 3,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
