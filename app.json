@@ -1,0 +1,60 @@
+{
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-9798215400647956~3917817136",
+    "ios_app_id": "ca-app-pub-9798215400647956~3267515211"
+  },
+  "expo": {
+    "name": "Knight's Tour",
+    "slug": "knight-tour-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a1208"
+    },
+    "ios": {
+      "userInterfaceStyle": "light",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.thefoundrysociety.knighttour",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "infoPlist": {
+        "NSLocalNetworkUsageDescription": "This app requires local network access to connect to the development server",
+        "GADApplicationIdentifier": "ca-app-pub-9798215400647956~3267515211"
+      }
+    },
+    "android": {
+      "package": "com.thefoundrysociety.knighttour",
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1a1208"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "permissions": []
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-9798215400647956~3917817136",
+          "iosAppId": "ca-app-pub-9798215400647956~3267515211"
+        }
+      ],
+      "expo-font",
+      [
+        "expo-av",
+        {
+          "microphonePermission": false
+        }
+      ],
+      "@react-native-firebase/app"
+    ]
+  }
+}

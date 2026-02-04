@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knight's Tour Icon Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1208;
+            color: #e8a838;
+        }
+        h1 {
+            text-align: center;
+            color: #e8a838;
+        }
+        .canvas-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        .canvas-wrapper {
+            text-align: center;
+            background: #2a2010;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #3d3020;
+        }
+        canvas {
+            border: 2px solid #e8a838;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+        button {
+            background: #e8a838;
+            color: #1a1208;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .info {
+            background: #2a2010;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #3d3020;
+            margin: 20px 0;
+            color: #c4a882;
+        }
+        h3 {
+            color: #e8a838;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>♞ Knight's Tour Icon Generator</h1>
+
+    <div class="info">
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Click the "Generate Icons" button below</li>
+            <li>Right-click on each icon and select "Save Image As..."</li>
+            <li>Save them to your <code>assets/</code> folder with the appropriate names</li>
+            <li>Icons will be generated with your game's color scheme</li>
+        </ol>
+    </div>
+
+    <div style="text-align: center; margin: 20px 0;">
+        <button onclick="generateIcons()">Generate Icons</button>
+    </div>
+
+    <div class="canvas-container">
+        <div class="canvas-wrapper">
+            <h3>iOS Icon (1024×1024)</h3>
+            <canvas id="iosIcon" width="1024" height="1024"></canvas>
+            <button onclick="downloadCanvas('iosIcon', 'icon.png')">Download as icon.png</button>
+        </div>
+
+        <div class="canvas-wrapper">
+            <h3>Android Adaptive Icon (1024×1024)</h3>
+            <canvas id="androidIcon" width="1024" height="1024"></canvas>
+            <button onclick="downloadCanvas('androidIcon', 'adaptive-icon.png')">Download as adaptive-icon.png</button>
+        </div>
+
+        <div class="canvas-wrapper">
+            <h3>Splash Screen Icon (1024×1024)</h3>
+            <canvas id="splashIcon" width="1024" height="1024"></canvas>
+            <button onclick="downloadCanvas('splashIcon', 'splash-icon.png')">Download as splash-icon.png</button>
+        </div>
+    </div>
+
+    <script>
+        function drawChessboard(ctx, size, cellSize, offsetX, offsetY, pattern) {
+            const lightColor = '#c4a882';
+            const darkColor = '#3b2f1e';
+
+            for (let row = 0; row < pattern; row++) {
+                for (let col = 0; col < pattern; col++) {
+                    ctx.fillStyle = (row + col) % 2 === 0 ? lightColor : darkColor;
+                    ctx.fillRect(
+                        offsetX + col * cellSize,
+                        offsetY + row * cellSize,
+                        cellSize,
+                        cellSize
+                    );
+                }
+            }
+        }
+
+        function drawKnight(ctx, x, y, size, color) {
+            ctx.fillStyle = color;
+            ctx.font = `bold ${size}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('♞', x, y);
+        }
+
+        function generateIOSIcon() {
+            const canvas = document.getElementById('iosIcon');
+            const ctx = canvas.getContext('2d');
+            const size = 1024;
+
+            // Background gradient
+            const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size);
+            gradient.addColorStop(0, '#2a2010');
+            gradient.addColorStop(1, '#1a1208');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+
+            // Draw small chessboard pattern in center
+            const boardSize = 640;
+            const offsetX = (size - boardSize) / 2;
+            const offsetY = (size - boardSize) / 2;
+            const cellSize = boardSize / 8;
+
+            drawChessboard(ctx, size, cellSize, offsetX, offsetY, 8);
+
+            // Draw golden border around board
+            ctx.strokeStyle = '#e8a838';
+            ctx.lineWidth = 8;
+            ctx.strokeRect(offsetX - 4, offsetY - 4, boardSize + 8, boardSize + 8);
+
+            // Draw large knight in center
+            drawKnight(ctx, size/2, size/2, 480, '#e8a838');
+
+            // Add subtle shadow to knight
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+            ctx.shadowBlur = 20;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 8;
+            drawKnight(ctx, size/2, size/2, 480, '#e8a838');
+
+            // Reset shadow
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+        }
+
+        function generateAndroidIcon() {
+            const canvas = document.getElementById('androidIcon');
+            const ctx = canvas.getContext('2d');
+            const size = 1024;
+
+            // Transparent background for adaptive icon
+            ctx.clearRect(0, 0, size, size);
+
+            // Draw circular background
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2 - 50, 0, Math.PI * 2);
+            const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+            gradient.addColorStop(0, '#2a2010');
+            gradient.addColorStop(1, '#1a1208');
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            // Draw mini chessboard
+            const boardSize = 500;
+            const offsetX = (size - boardSize) / 2;
+            const offsetY = (size - boardSize) / 2;
+            const cellSize = boardSize / 8;
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2 - 50, 0, Math.PI * 2);
+            ctx.clip();
+
+            drawChessboard(ctx, size, cellSize, offsetX, offsetY, 8);
+
+            ctx.restore();
+
+            // Draw large knight
+            drawKnight(ctx, size/2, size/2, 420, '#e8a838');
+        }
+
+        async function generateSplashIcon() {
+            // Ensure Cinzel is loaded before drawing
+            await document.fonts.load('700 80px Cinzel');
+
+            const canvas = document.getElementById('splashIcon');
+            const ctx = canvas.getContext('2d');
+            const size = 1024;
+
+            // Transparent background for splash
+            ctx.clearRect(0, 0, size, size);
+
+            // Draw knight on transparent background
+            // Add glow effect
+            ctx.shadowColor = '#e8a838';
+            ctx.shadowBlur = 40;
+            drawKnight(ctx, size/2, size/2, 700, '#e8a838');
+
+            // Reset shadow
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+
+            // Add title below
+            ctx.fillStyle = '#e8a838';
+            ctx.font = '700 80px Cinzel';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText("Knight's Tour", size/2, size - 150);
+        }
+
+        function generateIcons() {
+            generateIOSIcon();
+            generateAndroidIcon();
+            generateSplashIcon();
+        }
+
+        function downloadCanvas(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const url = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = url;
+            link.click();
+        }
+
+        // Generate icons on page load (wait for Cinzel font to load first)
+        document.fonts.ready.then(() => { generateIcons(); });
+    </script>
+</body>
+</html>
